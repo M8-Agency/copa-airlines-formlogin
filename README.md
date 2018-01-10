@@ -14,3 +14,13 @@ Describe copa-airlines-formlogin here.
 
 [coveralls-badge]: https://img.shields.io/coveralls/user/repo/master.png?style=flat-square
 [coveralls]: https://coveralls.io/github/user/repo
+
+npm install copa-airlines-formlogin
+
+```js
+<FormLogin 
+endPoint='./login' 
+loginSuccess = { this.handleLoginSuccess }
+loginError = { this.handleLoginError }
+/>
+```
