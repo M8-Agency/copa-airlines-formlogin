@@ -8,6 +8,10 @@ class FormLogin extends Component{
     
     constructor(props){
         super(props)
+        this.data = {}
+        this.state = {
+            error : false
+        }
     }
     
     handleValidateForm = (event) => {
@@ -16,22 +20,36 @@ class FormLogin extends Component{
         const formData = new FormData(event.target);
         let data = {
             'email' : formData.get('email'),
-            'email2' : formData.get('email2')
+            'email_confirmation' : formData.get('email_confirmation')
         };
       
         const rules = {
-            'email': 'required|email'
-        };
+            'email': 'required|email',
+            'email_confirmation': 'required|email',
+        }
+        
+        const errors = {
+            'required': 'El campo de e-mail es requerido',
+            'email': 'El campo de e-mail es requerido'
+        }        
       
-        var validation = new Validator(data, rules);
+        var validation = new Validator(data, rules, errors);
         
-        validation.passes(() => {
-            this.login(formData);
-        });
-        
-        validation.fails(() => {
-            alert("ko");
-        });        
+        if(data.email === data.email_confirmation){
+            validation.passes(() => {
+                this.data = data
+                this.login(formData);    
+            });
+            validation.fails(() => {
+                this.setState({
+                    error : validation.errors.first('email')
+                })                
+            });            
+        }else{
+            this.setState({
+                error : 'El email de confirmación no coincide'
+            })            
+        }                        
     }
 
     login = (formData) => {
@@ -45,12 +63,13 @@ class FormLogin extends Component{
     }
 
     loginError = (error) => {
-        this.props.loginError(error)
+        //Envio al error con los datos que se enviaron al endpoint
+        this.props.loginError(error, this.data)
     }    
 
     render = () => {
         return (
-            <FormLoginUI validateForm = { this.handleValidateForm }  copy={ this.props.copy['es']} /> 
+            <FormLoginUI validateForm = { this.handleValidateForm }  copy={ this.props.copy['es']} error={ this.state.error } /> 
         )
     }
 }
