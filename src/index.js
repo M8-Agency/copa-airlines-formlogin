@@ -58,8 +58,8 @@ class FormLogin extends Component{
         .catch(this.loginError);
     }
 
-    loginSuccess = (data) => {
-        this.props.loginSuccess(data)
+    loginSuccess = (response) => {
+        this.props.loginSuccess(response.data)
     }
 
     loginError = (error) => {
