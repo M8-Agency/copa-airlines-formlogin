@@ -16,11 +16,10 @@ class FormLogin extends Component{
     
     handleValidateForm = (event) => {
         event.preventDefault()
-        
-        const formData = new FormData(event.target);
+
         let data = {
-            'email' : formData.get('email'),
-            'email_confirmation' : formData.get('email_confirmation')
+            'email' : document.getElementsByName('FormLoginUI__email')[0].value,
+            'email_confirmation' : document.getElementsByName('FormLoginUI__email_confirmation')[0].value
         };
       
         const rules = {
@@ -37,8 +36,7 @@ class FormLogin extends Component{
         
         if(data.email === data.email_confirmation){
             validation.passes(() => {
-                this.data = data
-                this.login(formData);    
+                this.login(data);    
             });
             validation.fails(() => {
                 this.setState({
@@ -52,44 +50,56 @@ class FormLogin extends Component{
         }                        
     }
 
-    login = (formData) => {
+    login = (data) => {
+        //Inicio proceso de login
+        this.props.working(true)
+
+        this.data = data
+        const formData = new FormData()
+
+        formData.append('email', data.email)
+        formData.append('email_confirmation', data.email_confirmation)
+
         return axios.post(this.props.endPoint, formData)
         .then(this.loginSuccess)
         .catch(this.loginError);
     }
 
     loginSuccess = (response) => {
-        this.props.loginSuccess(response.data)
+        this.props.working(false)
+        if(response.data.status === 'ok'){
+            this.props.loginSuccess(response.data)
+        }else{
+            this.props.loginError(response.data.description, this.data)
+            this.setState({
+                error : response.data.description
+            })
+        }
     }
 
     loginError = (error) => {
         //Envio al error con los datos que se enviaron al endpoint
+        this.props.working(false)
         this.props.loginError(error, this.data)
     }    
 
     render = () => {
         return (
-            <FormLoginUI validateForm = { this.handleValidateForm }  copy={ this.props.copy['es']} error={ this.state.error } /> 
+            <FormLoginUI validateForm = { this.handleValidateForm }  copy={ this.props.copy } error={ this.state.error } /> 
         )
     }
 }
 
 const copy = {
-    es : {
-        'emailPlaceholder' : 'Email',
-        'email2Placeholder' : 'Confirma Email',
-        'submitLabel' : 'Continuar'
-    },
-    pt : {
-        'emailPlaceholder' : 'Email',
-        'email2Placeholder' : 'Confirma Email',
-        'submitLabel' : 'Continuar'
-    }
+    'emailPlaceholder' : 'Email',
+    'email2Placeholder' : 'Confirma Email',
+    'submitLabel' : 'Continuar'
 }
 
 FormLogin.propTypes = {
     copy : PropTypes.object,
     endPoint : PropTypes.string.isRequired ,
+    working : PropTypes.func.isRequired,
     loginSuccess : PropTypes.func.isRequired,
     loginError : PropTypes.func.isRequired
 };
