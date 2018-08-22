@@ -5,21 +5,25 @@ import FormLogin from '../../src'
 
 class Demo extends Component {
   
-  handleLoginSuccess = (response) => {
-    console.log(response)
+  handleWorking = (status) => {
+    console.log(status);
   }
 
-  handleLoginError = (error, data) => {
-    console.log(error)
+  handleLoginSuccess = (response) => {
+    console.log('handleLoginSuccess')
+  }
+
+  handleLoginError = (response) => {
+    console.log('handleLoginError')
   } 
 
   render() {
     return <div>
       <h1>copa-airlines-formlogin Demo</h1>
       <FormLogin 
-        endPoint= {`/user/login`}
-        loginSuccess = { this.handleLoginSuccess }
-        loginError = { this.handleLoginError }
+        working= { this.handleWorking }
+        success = { this.handleLoginSuccess }
+        error = { this.handleLoginError }
         />      
     </div>
   }
