@@ -54,9 +54,14 @@ class FormLogin extends Component{
 }
 
 const copy = {
-    'emailPlaceholder' : 'Email',
-    'email2Placeholder' : 'Confirma Email',
-    'submitLabel' : 'Continuar'
+    emailPlaceholder : 'Email',
+    email2Placeholder : 'Confirma Email',
+    submitLabel : 'Continuar',
+    error : {
+        required : 'El campo de e-mail es requerido',
+        email : 'El campo de e-mail es requerido',
+        equal : 'El email de confirmación no coincide'
+    }
 }
 
 FormLogin.propTypes = {

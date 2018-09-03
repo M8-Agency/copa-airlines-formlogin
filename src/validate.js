@@ -12,8 +12,8 @@ export default function (formData, copy) {
     }
 
     const errors = {
-        'required': 'El campo de e-mail es requerido',
-        'email': 'El campo de e-mail es requerido'
+        'required': copy.error.required,
+        'email': copy.error.email
     }
 
     var validation = new Validator(data, rules, errors);
@@ -46,7 +46,7 @@ export default function (formData, copy) {
     } else {
         responseObject = {
             valid: false,
-            message: 'El email de confirmación no coincide',
+            message: copy.error.equal,
             data
         }
     }
