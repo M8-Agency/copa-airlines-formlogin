@@ -26,14 +26,17 @@ class FormLogin extends Component{
 
     handlers = {
         handlerEmail : this.handlerEmail,
-        handlerEmailConfirmation : this.handlerEmailConfirmation
+        handlerEmailConfirmation : this.handlerEmailConfirmation,
     }
 
     handleValidateForm = (event) => {
         event.preventDefault()
         const validateData = validate(this.formData, this.props.copy)
+        
         if(validateData.valid){
+            
             this.props.success(validateData)
+
         }else{
             this.setState({
                 error: validateData.message
@@ -48,7 +51,8 @@ class FormLogin extends Component{
             validateForm = { this.handleValidateForm }  
             copy={ this.props.copy } 
             error={ this.state.error } 
-            handlers = { this.handlers } /> 
+            handlers = { this.handlers } 
+            working = { this.props.working }/> 
         )
     }
 }
@@ -66,13 +70,14 @@ const copy = {
 
 FormLogin.propTypes = {
     copy : PropTypes.object,
-    working : PropTypes.func,
+    working : PropTypes.bool,
     success : PropTypes.func.isRequired,
     error : PropTypes.func.isRequired
 };
 
 FormLogin.defaultProps = {
-    copy
+    copy,
+    working : false
 };
 
 export default FormLogin;

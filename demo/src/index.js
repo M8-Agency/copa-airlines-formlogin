@@ -5,10 +5,6 @@ import FormLogin from '../../src'
 
 class Demo extends Component {
   
-  handleWorking = (status) => {
-    console.log(status);
-  }
-
   handleLoginSuccess = (response) => {
     console.log('handleLoginSuccess')
   }
@@ -21,7 +17,7 @@ class Demo extends Component {
     return <div>
       <h1>copa-airlines-formlogin Demo</h1>
       <FormLogin 
-        working= { this.handleWorking }
+        working= { false }
         success = { this.handleLoginSuccess }
         error = { this.handleLoginError }
         />      
