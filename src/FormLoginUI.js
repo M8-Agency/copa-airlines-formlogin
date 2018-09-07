@@ -8,7 +8,7 @@ const FormLoginUI = (props) => (
                 <input className="FormLogin__email_conf" type="email" placeholder= { props.copy.email2Placeholder } ref = { props.handlers.handlerEmailConfirmation }  />
             </div>
             { (props.error) && <p className="FormLogin__error">{ props.error }</p> }
-            <input disabled={ props.working } className="FormLogin__cta" type="submit" value={ props.copy.submitLabel } />
+            <button disabled={ props.working } className="FormLogin__cta">{ props.copy.submitLabel }</button>
         </form>
     </div>
 )
